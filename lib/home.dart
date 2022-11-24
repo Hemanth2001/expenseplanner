@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:expenseplanner/transaction.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -8,6 +8,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final List<Transaction> transaction=[
+    Transaction(id: "1",
+    title: "Food",
+  amount: 5000,
+    date:DateTime.now()
+  ]
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +22,10 @@ class _HomeState extends State<Home> {
         title: Text("Expense Planner"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Card(
+         Card(
             child: Container(
                 width: double.infinity,
                 color: Colors.amberAccent ,
