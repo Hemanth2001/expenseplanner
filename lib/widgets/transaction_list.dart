@@ -1,24 +1,28 @@
+import 'package:expenseplanner/models/transaction.dart';
+import 'package:expenseplanner/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/transaction.dart';
 
-class TransactionList extends StatefulWidget {
-  const TransactionList({Key? key}) : super(key: key);
+class TransactionList extends StatelessWidget {
+  final List<Transaction> transactions;
+TransactionList(this.transactions);
 
-  @override
-  State<TransactionList> createState() => _TransactionListState();
-}
 
-class _TransactionListState extends State<TransactionList> {
-  final List<Transaction> _usertransaction = [
-    Transaction(id: "1", title: "Food", amount: 5000, date: DateTime.now()),
-    Transaction(id: "12", title: "Food", amount: 5000, date: DateTime.now()),
-    Transaction(id: "13", title: "Food", amount: 5000, date: DateTime.now()),
-  ];
+
   @override
   Widget build(BuildContext context) {
-    return           Column(
-      children: _usertransaction.map((tx) {
+    return Container(
+      height: 300,
+      child: transactions.isEmpty?Column(
+        children: [
+          Text("No Transactions are not add yet"),
+          Container(
+              height: 200,
+              child: Image.asset('assets/images/f.jpg',fit: BoxFit.cover))
+        ],
+      ) :ListView.builder(
+        itemCount: transactions.length ,
+        itemBuilder: (ctx , index){
         return Card(
           child: Row(
             children: [
@@ -34,7 +38,7 @@ class _TransactionListState extends State<TransactionList> {
                         width: 2,
                       )),
                   child: Text(
-                    '\$' + tx.amount.toString(),
+                    '\$' + transactions[index].amount.toStringAsFixed(2),
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight
                         .bold),
                   )),
@@ -42,17 +46,18 @@ class _TransactionListState extends State<TransactionList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    tx.title,
-                    style: TextStyle(fontSize: 18,fontWeight: FontWeight
-                        .bold),
+                    transactions[index].title,
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
-                  Text(DateFormat().format(tx.date)),
+                  Text(DateFormat().format(transactions[index].date)),
                 ],
               )
             ],
           ),
         );
-      }).toList(),
+      },
+
+      ),
     );
   }
 }
