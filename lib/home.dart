@@ -1,3 +1,4 @@
+import 'package:expenseplanner/widgets/chart.dart';
 import 'package:expenseplanner/widgets/new_transaction.dart';
 import 'package:expenseplanner/widgets/transaction_list.dart';
 import 'package:expenseplanner/widgets/user_transaction.dart';
@@ -19,6 +20,12 @@ class _HomeState extends State<Home> {
     // Transaction(id: "12", title: "Food", amount: 5000, date: DateTime.now()),
     // Transaction(id: "13", title: "Food", amount: 5000, date: DateTime.now()),
   ];
+
+  List<Transaction> get _recentTransactions{
+    return _userTransaction.where((tx){
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days:7 ),),);
+    }).toList();
+  }
   void _addNewTransaction(String txTitle, double txAmount)
   {
     final newTx=Transaction( title: txTitle, amount: txAmount, date: DateTime
@@ -60,13 +67,8 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              child: Card(
-                color: Colors.amberAccent,
-                child: Text("Chart"),
-                elevation: 5,
-              ),
-            ),
+            //
+            Chart(_recentTransactions),
            TransactionList(_userTransaction),
           ],
         ),
