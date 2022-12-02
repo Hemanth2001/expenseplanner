@@ -26,10 +26,10 @@ class _HomeState extends State<Home> {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days:7 ),),);
     }).toList();
   }
-  void _addNewTransaction(String txTitle, double txAmount)
+  void _addNewTransaction(String txTitle, double txAmount,DateTime chosenDate)
   {
-    final newTx=Transaction( title: txTitle, amount: txAmount, date: DateTime
-        .now(), id: DateTime.now().toString());
+    final newTx=Transaction( title: txTitle, amount: txAmount, date:chosenDate, id:
+    DateTime.now().toString());
 
     setState((){
       _userTransaction.add(newTx);
@@ -50,6 +50,12 @@ class _HomeState extends State<Home> {
       );
     },);
   }
+  void _deleteTransaction(String id){
+    setState((){
+      _userTransaction.remove((tx)=> tx.id==id
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +75,7 @@ class _HomeState extends State<Home> {
           children: [
             //
             Chart(_recentTransactions),
-           TransactionList(_userTransaction),
+           TransactionList(_userTransaction,_deleteTransaction),
           ],
         ),
       ),
