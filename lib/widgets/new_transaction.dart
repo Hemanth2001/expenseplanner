@@ -48,38 +48,46 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 5,
-        child: Container(
-          child: Column(
-            children: [
-              TextField(
-                controller: title,
-                decoration: InputDecoration(labelText: 'Title'),
-                onSubmitted: (_)=>submitData,
-              ),
-              TextField(
-                controller: amount,
-                decoration: InputDecoration(labelText: 'Amount'),
-                keyboardType: TextInputType.number,
-                onSubmitted: (_)=>submitData,
-              ),
-              Row(children: [
-                Expanded(
-                  child: Text(
-                    _selectedDate == null ? 'No Date chosen': DateFormat.yMd().format
-                      (_selectedDate!),),
+    return SingleChildScrollView(
+        child: Card(
+          elevation: 5,
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom+10.0
+            ),
+            child: Column(
+              children: [
+                TextField(
+                  controller: title,
+                  decoration: InputDecoration(labelText: 'Title'),
+                  onSubmitted: (_)=>submitData,
                 ),
-                FlatButton(onPressed: (){
-                  presentDatePicker();
-                }, child: Text('Choose Date '))
-              ],),
-              ElevatedButton(onPressed:submitData,
-                  child: Text
-          ('Add')),
-            ],
-          ),
-        ));
+                TextField(
+                  controller: amount,
+                  decoration: InputDecoration(labelText: 'Amount'),
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (_)=>submitData,
+                ),
+                Row(children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null ? 'No Date chosen': DateFormat.yMd().format
+                        (_selectedDate!),),
+                  ),
+                  FlatButton(onPressed: (){
+                    presentDatePicker();
+                  }, child: Text('Choose Date '))
+                ],),
+                ElevatedButton(onPressed:submitData,
+                    child: Text
+            ('Add')),
+              ],
+            ),
+          )),
+      );
 
   }
 }
