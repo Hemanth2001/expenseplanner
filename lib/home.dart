@@ -21,6 +21,9 @@ class _HomeState extends State<Home> {
     // Transaction(id: "13", title: "Food", amount: 5000, date: DateTime.now()),
   ];
 
+  bool showchart=false;
+
+
   List<Transaction> get _recentTransactions{
     return _userTransaction.where((tx){
       return tx.date.isAfter(DateTime.now().subtract(Duration(days:7 ),),);
@@ -52,7 +55,7 @@ class _HomeState extends State<Home> {
   }
   void _deleteTransaction(String id){
     setState((){
-      _userTransaction.remove((tx)=> tx.id==id
+      _userTransaction.removeWhere((tx)=> tx.id==id
       );
     });
   }
@@ -73,8 +76,22 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //
-            Chart(_recentTransactions),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+              Text("Show Chart"),
+            Switch(value: showchart, onChanged: (val){
+              setState((){
+                showchart=val;
+              });
+            } , ),
+
+            ],
+
+            ),
+            showchart?
+            Chart(_recentTransactions):
+
            TransactionList(_userTransaction,_deleteTransaction),
           ],
         ),
